@@ -1,0 +1,7 @@
+/client/pkg
+*.iml
+*.ipr
+*.iws
+/client/src/uuid
+/server/src/mysql
+/server/pkg
