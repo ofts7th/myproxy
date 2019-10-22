@@ -3,7 +3,6 @@ package csapp
 import (
 	"fmt"
 	"net"
-	_ "log"
 	"io"
 	"flag"
 	"log"
@@ -92,13 +91,11 @@ func forwardConnection(sconn net.Conn, dconn net.Conn) {
 	exitChan := make(chan bool, 1)
 	go func(s net.Conn, d net.Conn, e chan bool) {
 		io.Copy(d, s)
-		fmt.Println("1")
 		e <- true
 	}(sconn, dconn, exitChan)
 
 	go func(s net.Conn, d net.Conn, e chan bool) {
 		io.Copy(s, d)
-		fmt.Println("2")
 		e <- true
 	}(sconn, dconn, exitChan)
 

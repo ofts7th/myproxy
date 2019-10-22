@@ -14,7 +14,11 @@ import (
 )
 
 func SrvWork() {
-	l, err := net.Listen("tcp", ":"+configMap["port"])
+	p, ok := configMap["port"]
+	if (!ok) {
+		return
+	}
+	l, err := net.Listen("tcp", ":"+p)
 	if err != nil {
 		fmt.Println("listen falied")
 		return
@@ -127,7 +131,13 @@ var ticker_SheckActiveSession = time.NewTicker(3 * time.Second)
 
 func init() {
 	c := flag.String("c", "", "")
+
 	flag.Parse()
+	if (*c == "") {
+		fmt.Println("no config file specified")
+		return
+	}
+
 	ReadConfig(c)
 	ioutil.WriteFile(configMap["pid"], ([]byte)(strconv.Itoa(os.Getpid())), 0666)
 	ConnectToDb()
