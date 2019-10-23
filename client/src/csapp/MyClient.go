@@ -45,6 +45,7 @@ func ClientWork() {
 }
 
 func handleClient(client net.Conn) {
+	fmt.Println("收到转发请求，开始连接服务器")
 	serverConn, err = net.Dial("tcp", serverIp)
 	if (err != nil) {
 		fmt.Println("服务器连接错误")
@@ -60,14 +61,17 @@ func handleClient(client net.Conn) {
 	var n = 0
 	var err error
 	var b [1024]byte
+	fmt.Println("开始握手")
 	fmt.Fprint(serverConn, "auth")
 
 	n, err = serverConn.Read(b[:])
 	if n == 0 || err != nil {
+		fmt.Println("握手失败")
 		return
 	}
 
 	if (string(b[:n]) == "ok") {
+		fmt.Println("握手成功，开始认证")
 		fmt.Fprint(serverConn, myUUID+","+userName+","+internalServer)
 	} else {
 		return
@@ -75,14 +79,15 @@ func handleClient(client net.Conn) {
 
 	n, err = serverConn.Read(b[:])
 	if n == 0 || err != nil {
-		log.Println(err)
+		fmt.Println("认证失败")
 		return
 	}
 
 	if (string(b[:n]) == "ok") {
-		fmt.Println("开始转发")
+		fmt.Println("认证成功，开始转发")
 		forwardConnection(serverConn, client)
 	} else {
+		fmt.Println("认证失败")
 		return
 	}
 }

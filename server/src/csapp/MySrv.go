@@ -11,6 +11,8 @@ import (
 	"os"
 	"io/ioutil"
 	"strconv"
+	"net/http"
+	"net/url"
 )
 
 func SrvWork() {
@@ -140,7 +142,6 @@ func init() {
 
 	ReadConfig(c)
 	ioutil.WriteFile(configMap["pid"], ([]byte)(strconv.Itoa(os.Getpid())), 0666)
-	ConnectToDb()
 	go checkActiveSession()
 }
 
@@ -158,7 +159,7 @@ func checkActiveSession() {
 	}
 }
 
-func checkUser(user string) bool {
+func checkUserMySql(user string) bool {
 	rows, err := dbConn.Query("select name from ProxyUser where name = '" + user + "'")
 	defer rows.Close()
 
@@ -167,6 +168,23 @@ func checkUser(user string) bool {
 		return false
 	}
 	if (rows.Next()) {
+		return true
+	}
+	return false
+}
+
+func checkUser(user string) bool {
+	res, err := http.PostForm(configMap["proxyUserUrl"], url.Values{"username": {user}})
+	if (err != nil) {
+		return false
+	}
+	defer res.Body.Close()
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return false
+	}
+
+	if (string(body) == "true") {
 		return true
 	}
 	return false

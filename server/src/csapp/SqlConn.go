@@ -17,7 +17,7 @@ func ConnectToDb() {
 		fmt.Printf("Open mysql failed,err:%v\n", err)
 		return
 	}
-	dbConn.SetConnMaxLifetime(100 * time.Second)
-	dbConn.SetMaxOpenConns(100)
-	dbConn.SetMaxIdleConns(16)
+	dbConn.SetConnMaxLifetime(60 * time.Second)
+	dbConn.SetMaxOpenConns(5)
+	dbConn.SetMaxIdleConns(5)
 }
