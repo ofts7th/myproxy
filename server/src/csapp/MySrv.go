@@ -87,7 +87,7 @@ func handleClient(client net.Conn) {
 	}
 
 	if (!sessionOk) {
-		sessionOk = checkUser(userName)
+		sessionOk = checkUser(userName, serverIp)
 		if (sessionOk) {
 			activeSession[uuid] = time.Now().Unix() + 3600
 		} else {
@@ -173,8 +173,8 @@ func checkUserMySql(user string) bool {
 	return false
 }
 
-func checkUser(user string) bool {
-	res, err := http.PostForm(configMap["proxyUserUrl"], url.Values{"username": {user}})
+func checkUser(user string, resource string) bool {
+	res, err := http.PostForm(configMap["proxyUserUrl"], url.Values{"username": {user}, "resource" : {resource}})
 	if (err != nil) {
 		return false
 	}
