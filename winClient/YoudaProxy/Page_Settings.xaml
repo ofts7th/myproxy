@@ -1,0 +1,24 @@
+﻿<Page x:Class="YoudaProxy.Page_Settings"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:YoudaProxy"
+      mc:Ignorable="d" Background="AliceBlue"
+      Title="Page_AutoUpdate" Width="800" Height="600" Loaded="Page_Loaded">
+    <StackPanel>
+        <Label Name="lblTitle" Content="全局设置" Margin="5" Padding="5"></Label>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="服务器" Width="100" Margin="5" Padding="5"></Label>
+            <TextBox Name="txtServer" Width="200" Margin="5" Padding="5"></TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="用户名" Width="100" Margin="5" Padding="5"></Label>
+            <TextBox Name="txtUserToken" Width="200" Margin="5" Padding="5"></TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="保存" Click="ButtonSave_Click" Margin="5" Padding="5"></Button>
+            <Button Content="取消" Click="ButtonCancel_Click" Margin="5" Padding="5"></Button>
+        </StackPanel>
+    </StackPanel>
+</Page>
