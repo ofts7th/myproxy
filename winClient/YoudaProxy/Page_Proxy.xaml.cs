@@ -61,5 +61,10 @@ namespace YoudaProxy
         {
             NavigationService.Navigate(new Page_EditProxy());
         }
+
+        private void ButtonGlobalSetting_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Page_Settings());
+        }
     }
 }

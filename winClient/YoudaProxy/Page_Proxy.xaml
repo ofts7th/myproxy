@@ -12,7 +12,8 @@
         </WrapPanel>
         <WrapPanel Margin="5">
             <Label Margin="5">服务器配置：</Label>
-            <Button Content="添加" Margin="5" Click="ButtonAddProxy_Click"></Button>
+            <Button Content="添加服务器" Margin="5" Click="ButtonAddProxy_Click"></Button>
+            <Button Content="全局设置" Margin="5" Click="ButtonGlobalSetting_Click"></Button>
         </WrapPanel>
         <DataGrid Name="dgData" AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>

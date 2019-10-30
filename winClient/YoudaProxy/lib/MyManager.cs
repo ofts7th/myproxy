@@ -27,5 +27,15 @@ namespace YoudaProxy.lib
         {
             DbHelper.Delete<ProxyServer>(id);
         }
+
+        public static MyConfig GetConfig(string key)
+        {
+            return DbHelper.GetBySql<MyConfig>("Select * From MyConfig Where MyKey = '" + key + "'");
+        }
+
+        public static void SaveConfig(MyConfig item)
+        {
+            DbHelper.Save(item);
+        }
     }
 }

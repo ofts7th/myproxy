@@ -5,3 +5,6 @@
 /client/src/uuid
 /server/src/mysql
 /server/pkg
+/winClient/YoudaProxy/.vs
+/winClient/YoudaProxy/bin
+/winClient/YoudaProxy/obj

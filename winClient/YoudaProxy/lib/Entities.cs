@@ -15,4 +15,10 @@ namespace YoudaProxy.lib
         public string Server { get; set; }
         public int LocalPort { get; set; }
     }
+
+    public class MyConfig : BaseEntity
+    {
+        public string MyKey { get; set; }
+        public string MyVal { get; set; }
+    }
 }

@@ -109,12 +109,18 @@ namespace YoudaProxy.lib
 
         public static DataRow ExecDataRow(string sql, params object[] parameterValues)
         {
-            return ExecDataTable(sql, parameterValues).Rows[0];
+            var dt = ExecDataTable(sql, parameterValues);
+            if (dt.Rows.Count > 0)
+                return dt.Rows[0];
+            return null;
         }
 
         public static string ExecScalar(string sql, params object[] parameterValues)
         {
-            return ExecDataRow(sql, parameterValues)[0].ToString();
+            var dr = ExecDataRow(sql, parameterValues);
+            if (dr == null)
+                return "";
+            return dr[0].ToString();
         }
 
         public static void ExecNonQuery(string sql, params object[] parameterValues)
@@ -288,7 +294,9 @@ namespace YoudaProxy.lib
         public static T GetBySql<T>(string sql, params object[] paras) where T : BaseEntity, new()
         {
             DataRow dr = ExecDataRow(sql, paras);
-            return MapDataRowToObject<T>(dr);
+            if (dr != null)
+                return MapDataRowToObject<T>(dr);
+            return null;
         }
     }
 }
