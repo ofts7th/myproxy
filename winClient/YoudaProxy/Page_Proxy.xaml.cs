@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using YoudaProxy.lib;
+using System.Threading.Tasks;
 
 namespace YoudaProxy
 {
@@ -24,6 +25,19 @@ namespace YoudaProxy
         {
             this.showMessage("欢迎使用友大代理转发程序");
             loadData();
+            MyApplication.Action_ShowMessage = this.showLogMessage;
+        }
+
+        void showLogMessage(string message)
+        {
+            txtLogMessage.Dispatcher.Invoke(new Action(() =>
+            {
+                if (this.txtLogMessage.Text.Length > 10000)
+                {
+                    this.txtLogMessage.Text = this.txtLogMessage.Text.Substring(0, 10000);
+                }
+                this.txtLogMessage.Text = message + Environment.NewLine + this.txtLogMessage.Text;
+            }));
         }
 
         void loadData()

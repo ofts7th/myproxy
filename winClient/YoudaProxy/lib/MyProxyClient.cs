@@ -18,6 +18,7 @@ namespace YoudaProxy.lib
             proxies.Add(proxy);
 
             var ts = new Thread(new ThreadStart(proxy.work));
+            ts.IsBackground = true;
             ts.Start();
         }
 
@@ -36,35 +37,44 @@ namespace YoudaProxy.lib
         public int Id { get; set; }
         public bool ShouldStop { get; set; }
         TcpListener listener = null;
+        string guid = Guid.NewGuid().ToString("N");
+
+        void showMessage(string str)
+        {
+            MyApplication.Action_ShowMessage?.Invoke(str);
+        }
 
         public void work()
         {
-            var guid = Guid.NewGuid().ToString("N");
-            var globalSrv = MyManager.GetConfig("server").MyVal.Split(':');
+            var _globalSrv = MyManager.GetConfig("server").MyVal.Split(':');
             var globalUserToken = MyManager.GetConfig("usertoken").MyVal;
-            var globalSrvIp = globalSrv[0];
-            var globalSrvPort = int.Parse(globalSrv[1]);
+            var globalSrvIp = _globalSrv[0];
+            var globalSrvPort = int.Parse(_globalSrv[1]);
 
             var srv = MyManager.GetProxyServer(Id);
             listener = new TcpListener(IPAddress.Any, srv.LocalPort);
             try
             {
+                showMessage("开始监听" + srv.LocalPort);
                 listener.Start(10);
             }
-            catch (Exception ex)
+            catch
             {
+                showMessage("监听出现错误");
                 ShouldStop = true;
             }
-
+            showMessage("等待连接");
             while (!ShouldStop)
             {
                 try
                 {
                     var socket = listener.AcceptSocket();
+                    showMessage("收到转发请求");
                     var client = new TcpClient();
+                    showMessage("开始连接服务器，" + globalSrvIp + ":" + globalSrvPort);
                     client.Connect(globalSrvIp, globalSrvPort);
                     var stream = client.GetStream();
-
+                    showMessage("开始握手");
                     byte[] data = Encoding.UTF8.GetBytes("auth");
                     stream.Write(data, 0, data.Length);
                     byte[] receiveData = new byte[1024];
@@ -72,22 +82,37 @@ namespace YoudaProxy.lib
                     string str = Encoding.UTF8.GetString(receiveData, 0, len);
                     if (str == "ok")
                     {
+                        showMessage("握手成功，开始认证");
                         data = Encoding.UTF8.GetBytes(guid + "," + globalUserToken + "," + srv.Server);
                         stream.Write(data, 0, data.Length);
                         len = stream.Read(receiveData, 0, receiveData.Length);
                         str = Encoding.UTF8.GetString(receiveData, 0, len);
                         if (str == "ok")
                         {
+                            showMessage("认证成功，开始转发");
                             var p = new Tuple<Socket, NetworkStream>(socket, stream);
                             Thread ts1 = new Thread(new ParameterizedThreadStart(this.forward1));
+                            ts1.IsBackground = true;
                             ts1.Start(p);
                             Thread ts2 = new Thread(new ParameterizedThreadStart(this.forward2));
+                            ts2.IsBackground = true;
                             ts2.Start(p);
                         }
+                        else
+                        {
+                            showMessage("认证失败");
+                            ShouldStop = true;
+                        }
+                    }
+                    else
+                    {
+                        showMessage("握手失败");
+                        ShouldStop = true;
                     }
                 }
                 catch (Exception ex)
                 {
+                    showMessage("异常：" + ex.Message);
                     ShouldStop = true;
                 }
             }
@@ -100,6 +125,7 @@ namespace YoudaProxy.lib
                 listener.Stop();
             }
             ShouldStop = true;
+            showMessage("停止监听");
         }
 
         void forward1(object obj)
@@ -123,6 +149,7 @@ namespace YoudaProxy.lib
                 }
                 catch (Exception ex)
                 {
+                    showMessage("转发异常：" + ex.Message);
                     good = false;
                 }
             }
@@ -149,6 +176,7 @@ namespace YoudaProxy.lib
                 }
                 catch (Exception ex)
                 {
+                    showMessage("转发异常：" + ex.Message);
                     good = false;
                 }
             }

@@ -5,32 +5,38 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:YoudaProxy"
       mc:Ignorable="d" Background="AliceBlue"
-      Title="Page_AutoUpdate" Width="800" Height="600" Loaded="Page_Loaded"><StackPanel>
-        <WrapPanel Margin="5">
-            <Label Margin="5" Padding="5" Name="lblMessage"></Label>
-        </WrapPanel>
-        <WrapPanel Margin="5">
-            <Label Margin="5" Padding="5">服务器配置：</Label>
-            <Button Padding="5" Content="添加服务器" Margin="5" Click="ButtonAddProxy_Click"></Button>
-            <Button Padding="5" Content="全局设置" Margin="5" Click="ButtonGlobalSetting_Click"></Button>
-        </WrapPanel>
-        <DataGrid Name="dgData" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" IsReadOnly="True">
-            
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Server" Width="200" Binding="{Binding Entity.Server}" ElementStyle="{StaticResource DgCellStyle}"/>
-                <DataGridTextColumn Header="LocalPort" Width="100" Binding="{Binding Entity.LocalPort}" ElementStyle="{StaticResource DgCellStyle}"/>
-                <DataGridTemplateColumn Header="操作" Width="80*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Click="ButtonCell_Click" Padding="5" CommandParameter="start" Content="{Binding StartButtonText}" Margin="5"></Button>
-                                <Button Click="ButtonCell_Click" Padding="5" CommandParameter="edit" Content="编辑" Margin="5"></Button>
-                                <Button Click="ButtonCell_Click" Padding="5" CommandParameter="delete" Content="删除" Margin="5"></Button>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+      Title="Page_AutoUpdate" Loaded="Page_Loaded">
+    <StackPanel Orientation="Horizontal">
+        <StackPanel Width="600">
+            <WrapPanel Margin="5">
+                <Label Margin="5" Padding="5" Name="lblMessage"></Label>
+            </WrapPanel>
+            <WrapPanel Margin="5">
+                <Label Margin="5" Padding="5">服务器配置：</Label>
+                <Button Padding="5" Content="添加服务器" Margin="5" Click="ButtonAddProxy_Click"></Button>
+                <Button Padding="5" Content="全局设置" Margin="5" Click="ButtonGlobalSetting_Click"></Button>
+            </WrapPanel>
+            <DataGrid Name="dgData" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Server" Width="200" Binding="{Binding Entity.Server}" ElementStyle="{StaticResource DgCellStyle}"/>
+                    <DataGridTextColumn Header="LocalPort" Width="100" Binding="{Binding Entity.LocalPort}" ElementStyle="{StaticResource DgCellStyle}"/>
+                    <DataGridTemplateColumn Header="操作" Width="80*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Click="ButtonCell_Click" Padding="5" CommandParameter="start" Content="{Binding StartButtonText}" Margin="5"></Button>
+                                    <Button Click="ButtonCell_Click" Padding="5" CommandParameter="edit" Content="编辑" Margin="5"></Button>
+                                    <Button Click="ButtonCell_Click" Padding="5" CommandParameter="delete" Content="删除" Margin="5"></Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+        <StackPanel Width="200" Orientation="Vertical">
+            <Label Height="30" Padding="5" Content="日志记录"></Label>
+            <TextBox Name="txtLogMessage" Height="560"></TextBox>
+        </StackPanel>
     </StackPanel>
 </Page>

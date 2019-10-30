@@ -1,8 +1,10 @@
 ﻿<Window  x:Class="YoudaProxy.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Loaded="NavigationWindow_Loaded"
-        Title="MainWindow" Height="600" Width="800" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow">
-    <Frame Source="Page_Proxy.xaml" NavigationUIVisibility="Hidden">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Loaded="Window_Loaded"
+        Title="友大Proxy1.0" Height="600" Width="800" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" Closed="Window_Closed">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Height="600">
+        <Frame Source="Page_Proxy.xaml" NavigationUIVisibility="Hidden">
 
-    </Frame>
+        </Frame>
+    </ScrollViewer>
 </Window>

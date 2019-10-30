@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 
 namespace YoudaProxy.lib
 {
     public class MyApplication
     {
-        static Dictionary<string, string> config = new Dictionary<string, string>();
-        static MyApplication()
-        {
-            config["updateUrl"] = "http://dev.sdyouda.win:7722/ydworklog/youdaproxy/checkapp.htm";
-        }
-
+        public static Action<string> Action_ShowMessage { get; set; }
         public static List<ConfigItem> GetData()
         {
             List<ConfigItem> data = new List<ConfigItem>();
