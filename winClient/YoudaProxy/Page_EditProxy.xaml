@@ -9,16 +9,16 @@
     <StackPanel>
         <Label Name="lblTitle" Content="Edit proxy"></Label>
         <StackPanel Orientation="Horizontal">
-            <Label Content="服务器" Width="100" Margin="5"></Label>
-            <TextBox Name="txtServer" Width="200" Margin="5"></TextBox>
+            <Label Content="服务器" Width="100" Padding="5" Margin="5"></Label>
+            <TextBox Name="txtServer" Width="200" Padding="5" Margin="5"></TextBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <Label Content="本地端口" Width="100" Margin="5"></Label>
-            <TextBox Name="txtLocalPort" Width="200" Margin="5"></TextBox>
+            <Label Content="本地端口" Width="100" Padding="5" Margin="5"></Label>
+            <TextBox Name="txtLocalPort" Width="200" Padding="5" Margin="5"></TextBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <Button Content="保存" Click="ButtonSave_Click" Margin="5"></Button>
-            <Button Content="取消" Click="ButtonCancel_Click" Margin="5"></Button>
+            <Button Content="保存" Click="ButtonSave_Click" Padding="5" Margin="5"></Button>
+            <Button Content="取消" Click="ButtonCancel_Click" Padding="5" Margin="5"></Button>
         </StackPanel>
     </StackPanel>
 </Page>

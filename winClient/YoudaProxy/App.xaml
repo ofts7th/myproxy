@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:YoudaProxy"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style x:Key="DgCellStyle" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
     </Application.Resources>
 </Application>

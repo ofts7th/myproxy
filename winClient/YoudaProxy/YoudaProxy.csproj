@@ -71,6 +71,7 @@
     <Compile Include="lib\MyApplication.cs" />
     <Compile Include="lib\Entities.cs" />
     <Compile Include="lib\MyManager.cs" />
+    <Compile Include="lib\MyProxyClient.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

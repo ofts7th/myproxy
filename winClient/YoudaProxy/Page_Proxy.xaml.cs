@@ -39,11 +39,21 @@ namespace YoudaProxy
 
         private void ButtonCell_Click(object sender, RoutedEventArgs e)
         {
+            Button btnSender = ((Button)sender);
             int configId = ((ConfigItem)dgData.SelectedValue).Entity.Id;
-            switch (((Button)sender).CommandParameter)
+            switch (btnSender.CommandParameter)
             {
                 case "start":
-
+                    if (MyApplication.isListening(configId))
+                    {
+                        MyApplication.stopListen(configId);
+                        btnSender.Content = "启动";
+                    }
+                    else
+                    {
+                        MyApplication.startListen(configId);
+                        btnSender.Content = "停止";
+                    }
                     break;
                 case "edit":
                     var page = new Page_EditProxy();

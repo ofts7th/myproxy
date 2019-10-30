@@ -22,13 +22,33 @@ namespace YoudaProxy.lib
             {
                 ConfigItem item = new ConfigItem();
                 ProxyServer entity = new ProxyServer();
-                entity.Id = (int)dr["Id"];
-                entity.Server = dr["Server"].ToString();
-                entity.LocalPort = (int)dr["LocalPort"];
+                DbHelper.MapDataRowToObject(dr, entity);
                 item.Entity = entity;
+                if (isListening(entity.Id))
+                {
+                    item.StatusId = 1;
+                }
                 data.Add(item);
             }
             return data;
+        }
+
+        static List<int> listeningItems = new List<int>();
+        public static void startListen(int id)
+        {
+            MyProxyClient.listen(id);
+            listeningItems.Add(id);
+        }
+
+        public static bool isListening(int id)
+        {
+            return listeningItems.Contains(id);
+        }
+
+        public static void stopListen(int id)
+        {
+            MyProxyClient.stop(id);
+            listeningItems.Remove(id);
         }
     }
 
