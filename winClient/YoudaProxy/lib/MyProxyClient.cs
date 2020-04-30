@@ -56,13 +56,14 @@ namespace YoudaProxy.lib
             try
             {
                 showMessage("开始监听" + srv.LocalPort);
-                listener.Start(10);
+                listener.Start(5);
             }
             catch
             {
                 showMessage("监听出现错误");
-                ShouldStop = true;
+                return;
             }
+
             showMessage("等待连接");
             while (!ShouldStop)
             {
@@ -80,6 +81,8 @@ namespace YoudaProxy.lib
                     byte[] receiveData = new byte[1024];
                     int len = stream.Read(receiveData, 0, receiveData.Length);
                     string str = Encoding.UTF8.GetString(receiveData, 0, len);
+
+                    bool working = false;
                     if (str == "ok")
                     {
                         showMessage("握手成功，开始认证");
@@ -97,24 +100,34 @@ namespace YoudaProxy.lib
                             Thread ts2 = new Thread(new ParameterizedThreadStart(this.forward2));
                             ts2.IsBackground = true;
                             ts2.Start(p);
+                            working = true;
                         }
                         else
                         {
                             showMessage("认证失败");
-                            ShouldStop = true;
                         }
                     }
                     else
                     {
                         showMessage("握手失败");
-                        ShouldStop = true;
+                    }
+
+                    if (!working)
+                    {
+                        socket.Close();
+                        client.Close();
                     }
                 }
                 catch (Exception ex)
                 {
-                    showMessage("异常：" + ex.Message);
-                    ShouldStop = true;
+                    showMessage("程序异常：" + ex.Message);
                 }
+            }
+
+            if (listener != null)
+            {
+                listener.Stop();
+                listener = null;
             }
         }
 
@@ -151,6 +164,9 @@ namespace YoudaProxy.lib
                 {
                     showMessage("转发异常：" + ex.Message);
                     good = false;
+
+                    o.Item1.Close();
+                    o.Item2.Close();
                 }
             }
         }
@@ -178,6 +194,9 @@ namespace YoudaProxy.lib
                 {
                     showMessage("转发异常：" + ex.Message);
                     good = false;
+
+                    o.Item1.Close();
+                    o.Item2.Close();
                 }
             }
         }

@@ -55,7 +55,7 @@ namespace YoudaProxy
         {
             Button btnSender = ((Button)sender);
             int configId = ((ConfigItem)dgData.SelectedValue).Entity.Id;
-            switch (btnSender.CommandParameter)
+            switch (btnSender.CommandParameter.ToString())
             {
                 case "start":
                     if (MyApplication.isListening(configId))
